@@ -3,6 +3,7 @@ from fpdf import FPDF                               # For Converting Text into P
 from PyPDF2 import PdfFileReader, PdfFileWriter     # For PDF encryption
 import getpass, sys                                 # User input in hidden form 
 
+print("The owner of this project is Laxmi Narayan Vaishnav. \nYou can use the codes for understanding my idea or can use it for any other purpose. \nViolation of code may be painful. Thanks")
 x = int(input("The data is in two way for translating \nEnter 1 = saved file's translation \n      2 = manual\nEnter Your Choice: "))
 if x == 1:
     n = int(input("Enter the language which you wanna translate the data: \n1.Japaneese 2.Korean 3.Portuguese "))

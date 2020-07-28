@@ -1,9 +1,14 @@
 from translate import Translator                    # For Translating Text
 from fpdf import FPDF                               # For Converting Text into PDF File
 from PyPDF2 import PdfFileReader, PdfFileWriter     # For PDF encryption
-import getpass, sys                                 # User input in hidden form 
+import getpass, sys                                 # User password input in hidden
 
-print("The owner of this project is Laxmi Narayan Vaishnav. \nYou can use the codes for understanding my idea or can use it for any other purpose. \nViolation of code may be painful. Thanks")
+normalText = []
+languageCode = []
+translatedText = []
+finalText1 = []
+finalText2 = []
+
 x = int(input("The data is in two way for translating \nEnter 1 = saved file's translation \n      2 = manual\nEnter Your Choice: "))
 if x == 1:
     n = int(input("Enter the language which you wanna translate the data: \n1.Japaneese 2.Korean 3.Portuguese "))
@@ -31,28 +36,45 @@ if x == 1:
 
 elif x == 2:
     print("NOTICE: The maximum limit is 500 characters only including white spaces also!")
-    user_text = str(input("Enter the text you want to translate: "))
-    new_text_file = str(input("Enter file name as saving above text: "))
-    new_text_file_save = str(input(f"Enter the name for {new_text_file} to saving translated data: "))
-    print("\nPlease check the language code here: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes")
-    language_code = str(input("Please input the language code: "))
-    print("NOTE: If language code is appropriate then you'll get the result!")
-    translator = Translator(to_lang=language_code)  # This will automatically takes the language according to user input iso_language_code
+    new_text_file = str(input("Enter file name for saving your input: "))
+    new_text_file_save = str(input(f"Enter the name for {new_text_file} to saving its translated text: "))
 
-    try:
-        with open(f'{new_text_file}.txt', mode = 'w') as user_txt_input:   # This will create a new txt file
-            user_txt_input.writelines(user_text)
-
-        with open(f'{new_text_file}.txt', mode = 'r') as user_txt_input2:  # This will read the created file
-            text_data = user_txt_input2.read()
-            translated_data_file = translator.translate(text_data)
-            print(translated_data_file)
-
-        with open(f'{new_text_file_save}.txt', mode = 'w') as user_txt_output:     # This will saved the translated data
-            user_txt_output.write(translated_data_file)   
+    def translatingFn():
+        user_text = str(input("Enter the text you want to translate: "))
+        normalText.append(user_text)
+        print("\nPlease check the language code here: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes")
+        language_code = str(input("Please input the language code: "))
+        languageCode.append(language_code)
+        print("NOTE: If language code is appropriate then you'll get the result!")
+        translator = Translator(to_lang=language_code)  # This will automatically takes the language according to user input iso_language_code
+        translated_user_input = translator.translate(user_text)
+        print(translated_user_input)
+        translatedText.append(translated_user_input)
     
-    except:
-        print("Maybe your language code isn't available or wrong!!!")
+    translatingFn()
+
+    while True:
+        userChoice = int(input("Enter 1 if you want to translate more text: "))
+        if userChoice == 1:
+            translatingFn()
+        else:
+            break
+
+    length_normalText = len(normalText)
+    with open(f'{new_text_file}.txt', mode = 'w') as user_txt_input:   # This will create a new txt file
+        for i in range(length_normalText):
+            user_txt_input.writelines(f"{normalText[i]}\n")
+
+    length_translatedText = len(translatedText)
+    with open(f'{new_text_file_save}.txt', mode = 'w') as user_txt_output:   # This will create a new txt file
+        for i in range(length_translatedText):
+            user_txt_output.writelines(f"{translatedText[i]}\n")
+
+    for i in range(length_normalText):
+        finalText1.append(f"You entered: {normalText[i]}.")
+
+    for i in range(length_normalText):
+        finalText2.append(f"Translated text in language code '{languageCode[i]}' : {translatedText[i]}.")
 
     pdf_data = int(input("If you want this data in pdf format, enter '1' else '0' \nEnter Your Choice: "))
     if pdf_data == 1:        
@@ -60,7 +82,10 @@ elif x == 2:
         pdf.add_page()
         pdf.set_font("Arial", size = 24)
         #pdf.multi_cell(200, 10, txt = f'{translated_data_file}',fill = False, border = 0)   # For adjusting lines
-        pdf.multi_cell(200, 10, txt = f'You entered: {user_text}\n\nTranslated data in language code \'{language_code}\': {translated_data_file}',fill = False, border = 0)
+        sizeX, sizeY = 200, 10
+        for i in range(length_normalText):
+            pdf.multi_cell(sizeX, sizeY, txt = f'{finalText1[i]}\n{finalText2[i]}',fill = False, border = 0)
+            sizeX = sizeX + 200
         pdf_file_name = str(input("Enter name for your PDF file: "))
         pdf.output(f"{pdf_file_name}.pdf")        
         input("Enter to continue.....")

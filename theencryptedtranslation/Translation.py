@@ -80,7 +80,7 @@ elif x == 2:
     if pdf_data == 1:        
         pdf = FPDF()        # This is pre defined perameters of "fpdf" Python library
         pdf.add_page()
-        pdf.set_font("Arial", size = 24)
+        pdf.set_font("Arial", size = 16)
         #pdf.multi_cell(200, 10, txt = f'{translated_data_file}',fill = False, border = 0)   # For adjusting lines
         sizeX, sizeY = 200, 10
         for i in range(length_normalText):
@@ -114,9 +114,9 @@ elif x == 2:
             exit(0)
         
         with open(f'{new_text_file}.txt', mode = 'w') as erasing_txt_file1:
-                erasing_txt_file1.write("The data is encrypted. \nYou ain't allowed to access the encrypted data!!!")
+                erasing_txt_file1.write("The data is erased and saved into PDF file. \nYou can see the data in the PDF file only with the help of the password you given!!!")
         with open(f'{new_text_file_save}.txt', mode = 'w') as erasing_txt_file2:
-                erasing_txt_file2.write("The data is encrypted. \nYou ain't allowed to access the encrypted data!!!")
+                erasing_txt_file2.write("The data is erased and saved into PDF file. \nYou can see the data in the PDF file only with the help of the password you given!!!")
 
     else:
         print("Thanks for using this program!!!")

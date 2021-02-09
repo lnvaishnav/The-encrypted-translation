@@ -113,10 +113,15 @@ elif x == 2:
             print(f"Thanks for your interest!!! \nYour PDF file {pdf_file_name} successfully saved")
             exit(0)
         
-        with open(f'{new_text_file}.txt', mode = 'w') as erasing_txt_file1:
-                erasing_txt_file1.write("The data is erased and saved into PDF file. \nYou can see the data in the PDF file only with the help of the password you given!!!")
-        with open(f'{new_text_file_save}.txt', mode = 'w') as erasing_txt_file2:
-                erasing_txt_file2.write("The data is erased and saved into PDF file. \nYou can see the data in the PDF file only with the help of the password you given!!!")
+        data_overwriting = int(input("Enter '1' if you want to erase the data of .txt files, else anythin: "))
+        if data_overwriting==1:        
+            with open(f'{new_text_file}.txt', mode = 'w') as erasing_txt_file1:
+                    erasing_txt_file1.write("The data is erased and saved into PDF file. \nYou can see the data in the PDF file only with the help of the password you given!!!")
+            with open(f'{new_text_file_save}.txt', mode = 'w') as erasing_txt_file2:
+                    erasing_txt_file2.write("The data is erased and saved into PDF file. \nYou can see the data in the PDF file only with the help of the password you given!!!")
+        
+        else:
+            print("Your .txt files are not secure")
 
     else:
         print("Thanks for using this program!!!")
